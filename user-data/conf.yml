@@ -11,12 +11,20 @@ pageInfo:
 
 # Optional app settings and configuration
 appConfig:
+  auth:
+    enableOidc: true
+    oidc:
+      clientId: dashy
+      endpoint: https://auth.swick.app
   theme: colorful
 
 # Main content - An array of sections, each containing an array of items
 sections:
 - name: Getting Started
   icon: fas fa-rocket
+  displayData:
+    showForKeycloakUsers:
+      groups: ['admins']
   items:
   - title: Dashy Live
     description: Development a project management links for Dashy
