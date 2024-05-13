@@ -23,6 +23,18 @@ sections:
     icon: https://i.ibb.co/qWWpD0v/astro-dab-128.png
     url: https://live.dashy.to/
     target: newtab
+    display:
+      - type: user
+        name: some-user
+        display: true
+      - type: guest
+        display: false
+      - type: group
+        name: media-management
+        display: false
+      - type: role
+        name: some-role
+        display: true
   - title: GitHub
     description: Source Code, Issues and Pull Requests
     url: https://github.com/lissy93/dashy

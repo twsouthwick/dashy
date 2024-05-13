@@ -11,8 +11,7 @@ import { isVisibleToUser } from '@/utils/IsVisibleToUser';
 /* Putting it all together, the function to export */
 export const checkItemVisibility = (item) => {
   const currentUser = getCurrentUser(); // Get current user object
-  const displayData = item.displayData || {};
-  return isVisibleToUser(displayData, currentUser);
+  return isVisibleToUser(item.display || {}, item.displayData || {}, currentUser);
 };
 
 export default checkItemVisibility;

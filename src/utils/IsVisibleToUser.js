@@ -7,6 +7,7 @@
 // Import helper functions from auth, to get current user, and check if guest
 import { localStorageKeys } from '@/utils/defaults';
 import { isLoggedInAsGuest } from '@/utils/Auth';
+import { warningMsg } from '@/utils/CoolConsole';
 
 /* Helper function, checks if a given testValue is found in the visibility list */
 const determineVisibility = (visibilityList, testValue) => {
@@ -26,7 +27,8 @@ const determineIntersection = (source = [], target = []) => {
 
 /* Returns false if the displayData of a section/item
     should not be rendered for the current user/ guest */
-export const isVisibleToUser = (displayData, currentUser) => {
+export const isVisibleToUser = (display, displayData, currentUser) => {
+  const { groups, roles } = JSON.parse(localStorage.getItem(localStorageKeys.KEYCLOAK_INFO) || '{}');
   const isGuest = isLoggedInAsGuest(); // Check if current user is a guest
 
   // Checks if user explicitly has access to a certain section
@@ -47,7 +49,6 @@ export const isVisibleToUser = (displayData, currentUser) => {
   const checkKeycloakVisibility = () => {
     if (!displayData.hideForKeycloakUsers) return true;
 
-    const { groups, roles } = JSON.parse(localStorage.getItem(localStorageKeys.KEYCLOAK_INFO) || '{}');
     const hideForGroups = displayData.hideForKeycloakUsers.groups || [];
     const hideForRoles = displayData.hideForKeycloakUsers.roles || [];
 
@@ -64,16 +65,39 @@ export const isVisibleToUser = (displayData, currentUser) => {
     return determineIntersection(showForRoles, roles)
       || determineIntersection(showForGroups, groups);
   };
+
+  const checkDisplay = () => {
+    let isDisplayed = true;
+
+    for (const entity of display){
+      if (entity.type === 'guest' && isGuest) {
+        isDisplayed = entity.display;
+      } else if (entity.type === 'user' && currentUser.user === entity.name) {
+        isDisplayed = entity.display;
+      } else if (entity.type === 'group' && groups.includes(entity.name)) {
+        isDisplayed = entity.display;
+      } else if (entity.type === 'role' && roles.includes(entity.name)) {
+        isDisplayed = entity.display;
+      } else {
+        warningMsg('unknown section', JSON.stringify(entity));
+      }
+    }
+
+    return isDisplayed;
+  }
+
   // Checks if the current user is a guest, and if section/item allows for guests
   const checkIfHideForGuest = () => {
     const hideForGuest = displayData.hideForGuests;
     return !(hideForGuest && isGuest);
   };
+
   return checkVisibility()
     && checkHiddenability()
     && checkIfHideForGuest()
     && checkKeycloakVisibility()
-    && checkKeycloakHiddenability();
+    && checkKeycloakHiddenability()
+    && checkDisplay();
 };
 
 export default isVisibleToUser;

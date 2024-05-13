@@ -12,8 +12,7 @@ import { isVisibleToUser } from '@/utils/IsVisibleToUser';
 export const checkSectionVisibility = (sections) => {
   const currentUser = getCurrentUser(); // Get current user object
   return sections.filter((currentSection) => {
-    const displayData = currentSection.displayData || {};
-    return isVisibleToUser(displayData, currentUser);
+    return isVisibleToUser(currentSection.display || {}, currentSection.displayData || {}, currentUser);
   });
 };
 
