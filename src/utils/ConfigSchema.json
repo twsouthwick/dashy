@@ -59,50 +59,10 @@
           "displayData": {
             "title": "Display Data",
             "type": "object",
+            "deprecated": true,
             "additionalProperties": false,
             "description": "Optional meta data for customizing a page",
             "properties": {
-
-
-
-
-              "show":{
-                "title": "Show element for selected entities",
-                "type": "object",
-                "description": "Page will only be shown for entities in this list",
-                "additionalProperties": false,
-                "properties":{
-                  "users": {
-                    "title": "Users",
-                    "type": "array",
-                    "description": "Users that will be used to determine if item is shown or not",
-                    "items": {
-                      "type": "string",
-                      "description": "Name of the user"
-                    }
-                  },
-                  "groups": {
-                    "title": "Groups",
-                    "type": "array",
-                    "description": "Groups that will be used to determine if item is shown or not",
-                    "items": {
-                      "type": "string",
-                      "description": "Name of the group"
-                    }
-                  },
-                  "roles": {
-                    "title": "Roles",
-                    "type": "array",
-                    "description": "Roles that will be used to determine if item is shown or not",
-                    "items": {
-                      "type": "string",
-                      "description": "Name of the roles"
-                    }
-                  }
-                }
-              },
-
-
               "hideForUsers": {
                 "title": "Hide for Users",
                 "type": "array",
@@ -845,6 +805,7 @@
           "displayData": {
             "title": "Display Data",
             "type": "object",
+            "deprecated": true,
             "additionalProperties": false,
             "description": "Optional meta data for customizing a section",
             "properties": {
