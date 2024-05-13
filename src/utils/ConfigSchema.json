@@ -25,12 +25,84 @@
             "type": "string",
             "description": "The file name, or path. If in public directory, use just `file-name.yml`"
           },
+          "display": {
+            "title": "Display configuration",
+            "type": "array",
+            "description": "A collection of users, groups, and roles that have display configuration",
+            "additionalProperties": false,
+            "items": {
+              "title": "Display Entity",
+              "type": "object",
+              "description": "Display configuration for a specified user, group, or role",
+              "additionalProperties": false,
+              "properties":{
+                "type": {
+                  "type": "string",
+                  "enum": ["user", "group", "role", "guest"],
+                  "title": "Type of Entity",
+                  "description": "Type of entity"
+                },
+                "name":{
+                  "type": "string",
+                  "title": "Name of entity",
+                  "description": "Name of user, group, or role. Not applicable for guest"
+                },
+                "display":{
+                  "type":"boolean",
+                  "title": "Display entity",
+                  "description": "Whether or not entity should be displayed",
+                  "default": true
+                }
+              }
+            }
+          },
           "displayData": {
             "title": "Display Data",
             "type": "object",
             "additionalProperties": false,
             "description": "Optional meta data for customizing a page",
             "properties": {
+
+
+
+
+              "show":{
+                "title": "Show element for selected entities",
+                "type": "object",
+                "description": "Page will only be shown for entities in this list",
+                "additionalProperties": false,
+                "properties":{
+                  "users": {
+                    "title": "Users",
+                    "type": "array",
+                    "description": "Users that will be used to determine if item is shown or not",
+                    "items": {
+                      "type": "string",
+                      "description": "Name of the user"
+                    }
+                  },
+                  "groups": {
+                    "title": "Groups",
+                    "type": "array",
+                    "description": "Groups that will be used to determine if item is shown or not",
+                    "items": {
+                      "type": "string",
+                      "description": "Name of the group"
+                    }
+                  },
+                  "roles": {
+                    "title": "Roles",
+                    "type": "array",
+                    "description": "Roles that will be used to determine if item is shown or not",
+                    "items": {
+                      "type": "string",
+                      "description": "Name of the roles"
+                    }
+                  }
+                }
+              },
+
+
               "hideForUsers": {
                 "title": "Hide for Users",
                 "type": "array",
@@ -738,6 +810,37 @@
             "title": "Section Icon",
             "type": "string",
             "description": "Icon will be displayed next to title"
+          },          
+          "display": {
+            "title": "Display configuration",
+            "type": "array",
+            "description": "A collection of users, groups, and roles that have display configuration",
+            "additionalProperties": false,
+            "items": {
+              "title": "Display Entity",
+              "type": "object",
+              "description": "Display configuration for a specified user, group, or role",
+              "additionalProperties": false,
+              "properties":{
+                "type": {
+                  "type": "string",
+                  "enum": ["user", "group", "role", "guest"],
+                  "title": "Type of Entity",
+                  "description": "Type of entity"
+                },
+                "name":{
+                  "type": "string",
+                  "title": "Name of entity",
+                  "description": "Name of user, group, or role. Not applicable for guest"
+                },
+                "display":{
+                  "type":"boolean",
+                  "title": "Display entity",
+                  "description": "Whether or not entity should be displayed",
+                  "default": false
+                }
+              }
+            }
           },
           "displayData": {
             "title": "Display Data",
@@ -942,6 +1045,37 @@
                   "title": "Service URL",
                   "type": "string",
                   "description": "The destination to navigate to when item is clicked, expressed as a valid URL, IP or hostname"
+                },                
+                "display": {
+                  "title": "Display configuration",
+                  "type": "array",
+                  "description": "A collection of users, groups, and roles that have display configuration",
+                  "additionalProperties": false,
+                  "items": {
+                    "title": "Display Entity",
+                    "type": "object",
+                    "description": "Display configuration for a specified user, group, or role",
+                    "additionalProperties": false,
+                    "properties":{
+                      "type": {
+                        "type": "string",
+                        "enum": ["user", "group", "role", "guest"],
+                        "title": "Type of Entity",
+                        "description": "Type of entity"
+                      },
+                      "name":{
+                        "type": "string",
+                        "title": "Name of entity",
+                        "description": "Name of user, group, or role. Not applicable for guest"
+                      },
+                      "display":{
+                        "type":"boolean",
+                        "title": "Display entity",
+                        "description": "Whether or not entity should be displayed",
+                        "default": false
+                      }
+                    }
+                  }
                 },
                 "displayData": {
                   "title": "Display Data",
