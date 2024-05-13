@@ -1080,6 +1080,7 @@
                 "displayData": {
                   "title": "Display Data",
                   "type": "object",
+                  "deprecated": true,
                   "additionalProperties": false,
                   "description": "Optional meta data for customizing an item",
                   "properties": {
