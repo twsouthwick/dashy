@@ -58,7 +58,6 @@ export const isVisibleToUser = (display, displayData, currentUser) => {
   const checkKeycloakHiddenability = () => {
     if (!displayData.showForKeycloakUsers) return true;
 
-    const { groups, roles } = JSON.parse(localStorage.getItem(localStorageKeys.KEYCLOAK_INFO) || '{}');
     const showForGroups = displayData.showForKeycloakUsers.groups || [];
     const showForRoles = displayData.showForKeycloakUsers.roles || [];
 
@@ -66,25 +65,24 @@ export const isVisibleToUser = (display, displayData, currentUser) => {
       || determineIntersection(showForGroups, groups);
   };
 
-  const checkDisplay = () => {
-    let isDisplayed = true;
-
-    for (const entity of display){
+  // By default the item is shown. However, we iterate through the list and
+  // the last applicable one wins
+  const checkDisplay = () => display.reduce(
+    (acc, entity) => {
       if (entity.type === 'guest' && isGuest) {
-        isDisplayed = entity.display;
+        return entity.display;
       } else if (entity.type === 'user' && currentUser.user === entity.name) {
-        isDisplayed = entity.display;
+        return entity.display;
       } else if (entity.type === 'group' && groups.includes(entity.name)) {
-        isDisplayed = entity.display;
+        return entity.display;
       } else if (entity.type === 'role' && roles.includes(entity.name)) {
-        isDisplayed = entity.display;
+        return entity.display;
       } else {
         warningMsg('unknown section', JSON.stringify(entity));
+        return acc;
       }
-    }
-
-    return isDisplayed;
-  }
+    }, true,
+  );
 
   // Checks if the current user is a guest, and if section/item allows for guests
   const checkIfHideForGuest = () => {
