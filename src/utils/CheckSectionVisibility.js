@@ -11,9 +11,9 @@ import { isVisibleToUser } from '@/utils/IsVisibleToUser';
 /* Putting it all together, the function to export */
 export const checkSectionVisibility = (sections) => {
   const currentUser = getCurrentUser(); // Get current user object
-  return sections.filter((currentSection) => {
-    return isVisibleToUser(currentSection.display || {}, currentSection.displayData || {}, currentUser);
-  });
+  return sections.filter((currentSection) => isVisibleToUser(
+    currentSection.display || [], currentSection.displayData || {}, currentUser,
+  ));
 };
 
 export default checkSectionVisibility;

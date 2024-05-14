@@ -32,7 +32,10 @@ function isEmpty(obj) {
 /* Returns false if the displayData of a section/item
     should not be rendered for the current user/ guest */
 export const isVisibleToUser = (display, displayData, currentUser) => {
-  const { groups, roles } = JSON.parse(localStorage.getItem(localStorageKeys.KEYCLOAK_INFO) || '{}');
+  const userDetails = JSON.parse(localStorage.getItem(localStorageKeys.KEYCLOAK_INFO) || '{}');
+  const groups = userDetails.groups || [];
+  const roles = userDetails.roles || [];
+
   const isGuest = isLoggedInAsGuest(); // Check if current user is a guest
 
   if (!isEmpty(displayData)) {
@@ -79,6 +82,9 @@ export const isVisibleToUser = (display, displayData, currentUser) => {
     (acc, entity) => {
       if (entity.type === 'guest' && isGuest) {
         return entity.display;
+      } else if (entity.type !== 'guest' && !entity.name) {
+        warningMsg('no name provided', JSON.stringify(entity));
+        return acc;
       } else if (entity.type === 'user' && currentUser.user === entity.name) {
         return entity.display;
       } else if (entity.type === 'group' && groups.includes(entity.name)) {
@@ -86,7 +92,6 @@ export const isVisibleToUser = (display, displayData, currentUser) => {
       } else if (entity.type === 'role' && roles.includes(entity.name)) {
         return entity.display;
       } else {
-        warningMsg('unknown section', JSON.stringify(entity));
         return acc;
       }
     }, true,
