@@ -205,12 +205,12 @@ const app = express()
   })
   // Serves up static files
   .use(express.static(path.join(__dirname, process.env.USER_DATA_DIR || 'user-data')))
-  .use(express.static(path.join(__dirname, 'dist')))
+  .use(express.static(__dirname))
   .use(express.static(path.join(__dirname, 'public'), { index: 'initialization.html' }))
   .use(history())
   // If no other route is matched, serve up the index.html with a 404 status
   .use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'dist', 'index.html'));
+    res.status(404).sendFile(path.join(__dirname, 'index.html'));
   });
 
 /* Create HTTP server from app on port, and print welcome message */

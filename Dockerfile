@@ -22,7 +22,7 @@ RUN yarn install --ignore-engines --immutable --no-cache --network-timeout 30000
 COPY . ./
 
 # Build initial app for production
-RUN yarn build --mode production
+RUN yarn build --mode production && yarn webpack --mode=production
 
 # Production stage
 FROM node:20.11.1-alpine3.19
@@ -39,10 +39,10 @@ WORKDIR ${DIRECTORY}
 RUN apk add --no-cache tzdata
 
 # Copy built application from build phase
-COPY --from=BUILD_IMAGE /app ./
+COPY --from=BUILD_IMAGE /app/dist ./dist
 
 # Finally, run start command to serve up the built application
-CMD [ "yarn", "build-and-start" ]
+CMD [ "node", "server.js" ]
 
 # Expose the port
 EXPOSE ${PORT}
